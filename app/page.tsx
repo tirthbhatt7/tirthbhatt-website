@@ -225,7 +225,7 @@ export default function Page() {
             </h1>
             <p className="mt-6 text-lg text-muted-foreground sm:text-xl max-w-2xl">
               I help teams eliminate flaky tests, speed up CI, and ship with
-              confidence—using robust automation and pragmatic AI tooling.
+              confidence - using robust automation and pragmatic AI tooling.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Button
@@ -239,9 +239,6 @@ export default function Page() {
                 <Link href="#contact">Hire me</Link>
               </Button>
             </div>
-            <p className="mt-6 text-sm text-muted-foreground">
-              Previously improved CI at Fintech, SaaS, and AI startups
-            </p>
           </motion.div>
         </div>
       </AnimatedSection>
