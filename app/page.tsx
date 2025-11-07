@@ -224,8 +224,8 @@ export default function Page() {
               I build reliable, testable, and scalable release pipelines.
             </h1>
             <p className="mt-6 text-lg text-muted-foreground sm:text-xl max-w-2xl">
-              I help teams eliminate flaky tests, speed up CI, and ship with
-              confidence - using robust automation and pragmatic AI tooling.
+              Using robust automation and pragmatic AI tooling, I help teams
+              eliminate flaky tests, speed up CI, and ship with confidence.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Button
