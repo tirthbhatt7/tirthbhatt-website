@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -8,13 +8,53 @@ import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://chat.vercel.ai"),
-  title: "Next.js Chatbot Template",
-  description: "Next.js chatbot template using the AI SDK.",
+  metadataBase: new URL("https://tirthbhatt.com"),
+  title: {
+    default: "Tirth Bhatt — QA Engineer / SDET",
+    template: "%s — Tirth Bhatt",
+  },
+  description:
+    "QA Engineer / SDET focused on reliable E2E, fast CI, and pragmatic AI testing. I help teams eliminate flaky tests, speed up CI, and ship with confidence.",
+  keywords: [
+    "QA",
+    "SDET",
+    "Test Automation",
+    "Playwright",
+    "Cypress",
+    "CI/CD",
+    "AI Testing",
+    "Test Automation Engineer",
+    "Quality Assurance",
+  ],
+  openGraph: {
+    type: "website",
+    url: "https://tirthbhatt.com",
+    title: "Tirth Bhatt — QA Engineer / SDET",
+    description:
+      "I help teams eliminate flaky tests, speed up CI, and ship with confidence—using robust automation and pragmatic AI tooling.",
+    siteName: "Tirth Bhatt",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Tirth Bhatt — QA Engineer / SDET",
+    description:
+      "Reliable E2E, faster CI, and pragmatic AI testing for modern teams.",
+  },
+  alternates: {
+    canonical: "https://tirthbhatt.com",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
-export const viewport = {
+export const viewport: Viewport = {
   maximumScale: 1, // Disable auto-zoom on mobile Safari
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#06B6D4" },
+    { media: "(prefers-color-scheme: dark)", color: "#06B6D4" },
+  ],
 };
 
 const geist = Geist({
@@ -69,6 +109,25 @@ export default function RootLayout({
           // biome-ignore lint/security/noDangerouslySetInnerHtml: "Required"
           dangerouslySetInnerHTML={{
             __html: THEME_COLOR_SCRIPT,
+          }}
+        />
+        <script
+          type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: "Required for structured data"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Tirth Bhatt",
+              jobTitle: "QA Engineer / SDET",
+              url: "https://tirthbhatt.com",
+              sameAs: [
+                "https://www.linkedin.com/in/tirthbhatt7",
+                "https://github.com/tirthbhatt",
+              ],
+              email: "tirthbhatt7@gmail.com",
+              telephone: "+44 7341544376",
+            }),
           }}
         />
       </head>

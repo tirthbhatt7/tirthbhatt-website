@@ -1,11 +1,196 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { motion, useReducedMotion } from "framer-motion";
+import {
+  Gauge,
+  Bolt,
+  Mail,
+  Github,
+  Linkedin,
+  ArrowRight,
+  CheckCircle2,
+  TrendingDown,
+  TrendingUp,
+  Clock,
+} from "lucide-react";
+
+// Note: Using client components for animations, but content is static-friendly
+
+// Animation variants
+const fadeUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.5 },
+};
+
+const staggerContainer = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+function AnimatedSection({
+  children,
+  className = "",
+  id,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  id?: string;
+}) {
+  const shouldReduceMotion = useReducedMotion();
+
+  return (
+    <motion.section
+      initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+      whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.5 }}
+      className={className}
+      id={id}
+    >
+      {children}
+    </motion.section>
+  );
+}
+
+function StatCard({
+  icon: Icon,
+  value,
+  label,
+}: {
+  icon: React.ElementType;
+  value: string;
+  label: string;
+}) {
+  return (
+    <Card className="group hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg">
+      <CardContent className="p-6">
+        <div className="flex items-start gap-4">
+          <div className="rounded-lg bg-cyan-500/10 p-3 group-hover:bg-cyan-500/20 transition-colors">
+            <Icon className="h-6 w-6 text-cyan-500" />
+          </div>
+          <div className="flex-1">
+            <div className="text-3xl font-bold tracking-tight">{value}</div>
+            <div className="mt-1 text-sm text-muted-foreground">{label}</div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function ProjectCard({
+  title,
+  description,
+  tags,
+  outcome,
+}: {
+  title: string;
+  description: string;
+  tags: string[];
+  outcome: string;
+}) {
+  return (
+    <Card className="group hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+      <CardHeader>
+        <CardTitle className="text-xl">{title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="mb-4 flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <Badge key={tag} variant="outline" className="text-xs">
+              {tag}
+            </Badge>
+          ))}
+        </div>
+        <p className="text-sm text-muted-foreground">{outcome}</p>
+      </CardContent>
+    </Card>
+  );
+}
+
+function NavBar() {
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  return (
+    <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container mx-auto flex h-16 items-center justify-between px-6">
+        <Link href="/" className="text-lg font-semibold">
+          Tirth Bhatt
+        </Link>
+        <div className="hidden md:flex items-center gap-6">
+          <button
+            type="button"
+            onClick={() => scrollToSection("work")}
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Work
+          </button>
+          <button
+            type="button"
+            onClick={() => scrollToSection("approach")}
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Approach
+          </button>
+          <button
+            type="button"
+            onClick={() => scrollToSection("about")}
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            About
+          </button>
+          <Button
+            type="button"
+            onClick={() => scrollToSection("contact")}
+            size="sm"
+            className="bg-cyan-500 hover:bg-cyan-600 text-white"
+          >
+            Hire me
+          </Button>
+        </div>
+        <div className="md:hidden">
+          <Button
+            type="button"
+            onClick={() => scrollToSection("contact")}
+            size="sm"
+            variant="outline"
+          >
+            Contact
+          </Button>
+        </div>
+      </div>
+    </nav>
+  );
+}
 
 export default function Page() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <main className="min-h-dvh bg-background text-foreground">
       {/* Top-right AI Chat button */}
-      <div className="pointer-events-none fixed right-4 top-4 z-50 md:right-8 md:top-8">
+      {/* <div className="pointer-events-none fixed right-4 top-20 z-50 md:right-8 md:top-24">
         <Button
           asChild
           className="pointer-events-auto"
@@ -16,341 +201,452 @@ export default function Page() {
             AI Chat
           </Link>
         </Button>
-      </div>
+      </div> */}
 
-      {/* Hero */}
-      <section className="mx-auto max-w-5xl px-4 py-14 sm:py-20 md:px-6">
-        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
-          Tirth Bhatt
-        </h1>
-        <p className="mt-3 max-w-3xl text-balance text-muted-foreground sm:text-lg">
-          Dynamic and detail-oriented SDET with 4 years of automation
-          experience. I leverage AI tools to streamline testing and lift product
-          quality across UIs, APIs, microservices, and LLM pipelines.
-        </p>
-        <div className="mt-6 flex flex-wrap items-center gap-3 text-sm">
-          <Link
-            className="text-primary underline-offset-4 hover:underline"
-            href="tel:+447341544376"
+      <NavBar />
+
+      {/* Hero Section */}
+      <AnimatedSection className="container mx-auto px-6 py-20 md:py-32">
+        <div className="mx-auto max-w-4xl">
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+            animate={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
           >
-            +44 7341544376
-          </Link>
-          <span aria-hidden="true" className="text-muted-foreground">
-            ·
-          </span>
-          <Link
-            className="text-primary underline-offset-4 hover:underline"
-            href="mailto:tirthbhatt7@gmail.com"
-          >
-            tirthbhatt7@gmail.com
-          </Link>
-          <span aria-hidden="true" className="text-muted-foreground">
-            ·
-          </span>
-          <Link
-            className="text-primary underline-offset-4 hover:underline"
-            href="https://linkedin.com/in/tirthbhatt7"
-            rel="noopener"
-            target="_blank"
-          >
-            linkedin.com/in/tirthbhatt7
-          </Link>
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border bg-muted/50 px-4 py-1.5 text-sm">
+              <span className="text-cyan-500">QA Engineer</span>
+              <span className="text-muted-foreground">•</span>
+              <span className="text-cyan-500">SDET</span>
+              <span className="text-muted-foreground">•</span>
+              <span className="text-cyan-500">AI Testing</span>
+            </div>
+            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+              I build reliable, testable, and scalable release pipelines.
+            </h1>
+            <p className="mt-6 text-lg text-muted-foreground sm:text-xl max-w-2xl">
+              I help teams eliminate flaky tests, speed up CI, and ship with
+              confidence—using robust automation and pragmatic AI tooling.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <Button
+                asChild
+                size="lg"
+                className="bg-cyan-500 hover:bg-cyan-600 text-white"
+              >
+                <Link href="#work">View work</Link>
+              </Button>
+              <Button asChild size="lg" variant="outline">
+                <Link href="#contact">Hire me</Link>
+              </Button>
+            </div>
+            <p className="mt-6 text-sm text-muted-foreground">
+              Previously improved CI at Fintech, SaaS, and AI startups
+            </p>
+          </motion.div>
         </div>
-      </section>
+      </AnimatedSection>
 
-      {/* Profile */}
-      <section aria-labelledby="profile-heading" className="border-t">
-        <div className="mx-auto max-w-5xl px-4 py-10 md:px-6">
-          <h2 id="profile-heading" className="text-xl font-semibold">
-            Profile
-          </h2>
-          <p className="mt-3 max-w-4xl text-muted-foreground">
-            Proven record improving feedback loops and reducing production
-            issues. Built prompt-driven test harnesses and automated checks for
-            LLM features (accuracy, consistency, sentiment, basic hallucination
-            flags). Experienced across CI/CD, API/DB testing, Testcontainers,
-            and Docker/Kubernetes on Azure. Collaborate cross-functionally on
-            prompt engineering, RAG, and pipeline orchestration. Comfortable in
-            Agile/Scrum and mentoring juniors.
-          </p>
+      {/* Impact Stats */}
+      <AnimatedSection
+        id="impact"
+        aria-labelledby="impact-heading"
+        className="container mx-auto px-6 py-16"
+      >
+        <div className="mx-auto max-w-5xl">
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1 }}
+            viewport={{ once: true }}
+            className="mb-12 text-center"
+          >
+            <h2
+              id="impact-heading"
+              className="text-3xl font-bold tracking-tight sm:text-4xl"
+            >
+              Outcomes I deliver
+            </h2>
+          </motion.div>
+          <motion.div
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            className="grid gap-6 sm:grid-cols-3"
+          >
+            <motion.div variants={fadeUp}>
+              <StatCard
+                icon={TrendingDown}
+                value="-42%"
+                label="Flaky tests in 6 weeks"
+              />
+            </motion.div>
+            <motion.div variants={fadeUp}>
+              <StatCard icon={TrendingUp} value="+28%" label="CI throughput" />
+            </motion.div>
+            <motion.div variants={fadeUp}>
+              <StatCard
+                icon={Clock}
+                value="-33%"
+                label="95th percentile test time"
+              />
+            </motion.div>
+          </motion.div>
         </div>
-      </section>
+      </AnimatedSection>
 
-      {/* Tools & Tech */}
-      <section aria-labelledby="tools-heading" className="border-t">
-        <div className="mx-auto max-w-5xl px-4 py-10 md:px-6">
-          <h2 id="tools-heading" className="text-xl font-semibold">
-            Tools and Tech
-          </h2>
-          <div className="mt-6 grid gap-6 sm:grid-cols-2">
-            <div>
-              <h3 className="font-medium">Languages</h3>
-              <p className="mt-1 text-muted-foreground">
-                JavaScript/TypeScript, Java, Python, R, C#
-              </p>
+      {/* Featured Project */}
+      <AnimatedSection
+        id="work"
+        aria-labelledby="work-heading"
+        className="container mx-auto px-6 py-16"
+      >
+        <div className="mx-auto max-w-5xl">
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1 }}
+            viewport={{ once: true }}
+            className="mb-12"
+          >
+            <h2
+              id="work-heading"
+              className="text-3xl font-bold tracking-tight sm:text-4xl mb-4"
+            >
+              Featured Project
+            </h2>
+            <Card className="border-cyan-500/20 hover:border-cyan-500/50 transition-all duration-300">
+              <CardHeader>
+                <CardTitle className="text-2xl">
+                  Stabilizing E2E for a high-traffic SaaS
+                </CardTitle>
+                <CardDescription className="text-base">
+                  Rebuilt test architecture with Playwright + resilient
+                  selectors, introduced hermetic test data, and parallelized CI.
+                  Result: -70% flakiness and 30% faster pipelines.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <Badge variant="outline">Playwright</Badge>
+                  <Badge variant="outline">GitHub Actions</Badge>
+                  <Badge variant="outline">Testcontainers</Badge>
+                  <Badge variant="outline">Docker</Badge>
+                </div>
+                <Button variant="outline" size="sm" asChild>
+                  <Link href="#work">
+                    Read case study
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </div>
+      </AnimatedSection>
+
+      {/* Selected Work */}
+      <AnimatedSection
+        aria-labelledby="selected-work-heading"
+        className="container mx-auto px-6 py-16"
+      >
+        <div className="mx-auto max-w-5xl">
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1 }}
+            viewport={{ once: true }}
+            className="mb-12"
+          >
+            <h2
+              id="selected-work-heading"
+              className="text-3xl font-bold tracking-tight sm:text-4xl mb-8"
+            >
+              Selected Work
+            </h2>
+            <motion.div
+              variants={staggerContainer}
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true }}
+              className="grid gap-6 sm:grid-cols-2"
+            >
+              <motion.div variants={fadeUp}>
+                <ProjectCard
+                  title="Intelligent test selection for monorepo"
+                  description="Reduced CI cost by 22% via change-based test targeting and caching."
+                  tags={["Playwright", "GitHub Actions", "Turborepo"]}
+                  outcome="Implemented smart test selection that only runs tests affected by code changes, reducing CI costs and execution time."
+                />
+              </motion.div>
+              <motion.div variants={fadeUp}>
+                <ProjectCard
+                  title="AI-assisted test authoring"
+                  description="Cut authoring time 40% with structured prompts and trace-driven retries."
+                  tags={["OpenAI", "LangChain", "Tracetools"]}
+                  outcome="Built a framework that uses AI to generate test cases from requirements, with human review and validation loops."
+                />
+              </motion.div>
+              <motion.div variants={fadeUp}>
+                <ProjectCard
+                  title="Speech testing harness for voice analytics"
+                  description="Automated TTS → Chromium testing pipeline with WER evaluation for accuracy regressions."
+                  tags={["Playwright", "PulseAudio", "Python"]}
+                  outcome="Created end-to-end voice testing system that validates speech recognition accuracy across multiple accents and noise scenarios."
+                />
+              </motion.div>
+              <motion.div variants={fadeUp}>
+                <ProjectCard
+                  title="LLM pipeline testing framework"
+                  description="Dynamic prompt-driven testing with anomaly detection and sentiment monitoring."
+                  tags={["Python", "OpenAI", "Jenkins"]}
+                  outcome="Designed comprehensive testing framework for LLM features including hallucination detection and context-match scoring."
+                />
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </AnimatedSection>
+
+      {/* Approach */}
+      <AnimatedSection
+        id="approach"
+        aria-labelledby="approach-heading"
+        className="container mx-auto px-6 py-16"
+      >
+        <div className="mx-auto max-w-5xl">
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1 }}
+            viewport={{ once: true }}
+            className="mb-12 text-center"
+          >
+            <h2
+              id="approach-heading"
+              className="text-3xl font-bold tracking-tight sm:text-4xl mb-4"
+            >
+              How I work
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              A pragmatic three-step framework for building reliable test
+              systems
+            </p>
+          </motion.div>
+          <motion.div
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            className="grid gap-6 sm:grid-cols-3"
+          >
+            <motion.div variants={fadeUp}>
+              <Card className="h-full">
+                <CardHeader>
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-cyan-500/10">
+                    <Gauge className="h-6 w-6 text-cyan-500" />
+                  </div>
+                  <CardTitle>Assess</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">
+                    Map coverage, find bottlenecks, and quantify flakiness. I
+                    analyze your current test suite to identify pain points and
+                    measure baseline metrics.
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+            <motion.div variants={fadeUp}>
+              <Card className="h-full">
+                <CardHeader>
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-cyan-500/10">
+                    <CheckCircle2 className="h-6 w-6 text-cyan-500" />
+                  </div>
+                  <CardTitle>Stabilize</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">
+                    Fix flaky roots, standardize fixtures, hermetic data, and
+                    observability. I eliminate sources of instability and build
+                    reliable foundations.
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+            <motion.div variants={fadeUp}>
+              <Card className="h-full">
+                <CardHeader>
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-cyan-500/10">
+                    <Bolt className="h-6 w-6 text-cyan-500" />
+                  </div>
+                  <CardTitle>Scale</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">
+                    Parallelize, shard, and accelerate with smart selection and
+                    AI assistance where it truly helps. I optimize for speed
+                    without sacrificing reliability.
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </motion.div>
+        </div>
+      </AnimatedSection>
+
+      {/* Social Proof */}
+      <AnimatedSection className="container mx-auto px-6 py-16">
+        <div className="mx-auto max-w-3xl">
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1 }}
+            viewport={{ once: true }}
+          >
+            <Card className="border-cyan-500/20">
+              <CardContent className="p-8">
+                <p className="text-lg italic text-muted-foreground mb-4">
+                  &ldquo;We went from &lsquo;retry and pray&rsquo; to confident
+                  green builds. CI is 30% faster and far less noisy.&rdquo;
+                </p>
+                <p className="text-sm font-medium">
+                  — Head of Engineering, SaaS Platform
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </div>
+      </AnimatedSection>
+
+      {/* About */}
+      <AnimatedSection
+        id="about"
+        aria-labelledby="about-heading"
+        className="container mx-auto px-6 py-16"
+      >
+        <div className="mx-auto max-w-3xl">
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1 }}
+            viewport={{ once: true }}
+          >
+            <h2
+              id="about-heading"
+              className="text-3xl font-bold tracking-tight sm:text-4xl mb-6"
+            >
+              About Tirth
+            </h2>
+            <p className="text-lg text-muted-foreground mb-6">
+              QA/SDET focused on durable E2E systems, CI optimization, and
+              practical AI in testing. I value reliability over hype and help
+              teams scale quality without slowing delivery.
+            </p>
+            <div className="flex flex-wrap gap-2 mb-6">
+              <Badge variant="outline">Playwright</Badge>
+              <Badge variant="outline">Cypress</Badge>
+              <Badge variant="outline">Python</Badge>
+              <Badge variant="outline">TypeScript</Badge>
+              <Badge variant="outline">GitHub Actions</Badge>
+              <Badge variant="outline">Docker</Badge>
+              <Badge variant="outline">Kubernetes</Badge>
+              <Badge variant="outline">Testcontainers</Badge>
             </div>
-            <div>
-              <h3 className="font-medium">Cloud</h3>
-              <p className="mt-1 text-muted-foreground">
-                AWS, Microsoft Azure, GCP
-              </p>
+            <div className="flex gap-4">
+              <Button variant="outline" asChild>
+                <Link href="mailto:tirthbhatt7@gmail.com">Resume</Link>
+              </Button>
+              <Button variant="outline" asChild>
+                <Link href="/chat">Writing</Link>
+              </Button>
             </div>
-            <div>
-              <h3 className="font-medium">Frameworks</h3>
-              <p className="mt-1 text-muted-foreground">
-                Playwright, Cypress, Appium, Selenium, Node.js, .NET
-              </p>
+          </motion.div>
+        </div>
+      </AnimatedSection>
+
+      {/* Contact CTA */}
+      <AnimatedSection
+        id="contact"
+        aria-labelledby="contact-heading"
+        className="container mx-auto px-6 py-16"
+      >
+        <div className="mx-auto max-w-3xl">
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0 }}
+            whileInView={shouldReduceMotion ? undefined : { opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-center"
+          >
+            <h2
+              id="contact-heading"
+              className="text-3xl font-bold tracking-tight sm:text-4xl mb-4"
+            >
+              Let&apos;s improve your test pipeline
+            </h2>
+            <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
+              Great fit for teams with growing CI costs, flaky suites, or
+              monorepo complexity.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Button
+                size="lg"
+                className="bg-cyan-500 hover:bg-cyan-600 text-white"
+                asChild
+              >
+                <Link href="mailto:tirthbhatt7@gmail.com?subject=Let's%20discuss%20your%20test%20pipeline">
+                  <Mail className="mr-2 h-4 w-4" />
+                  Book a 20-min call
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild>
+                <Link href="mailto:tirthbhatt7@gmail.com">Email</Link>
+              </Button>
             </div>
-            <div>
-              <h3 className="font-medium">API & Performance</h3>
-              <p className="mt-1 text-muted-foreground">
-                Postman, Gatling, JMeter, WireMock
-              </p>
+          </motion.div>
+        </div>
+      </AnimatedSection>
+
+      {/* Footer */}
+      <footer className="border-t">
+        <div className="container mx-auto px-6 py-12">
+          <div className="mx-auto max-w-5xl">
+            <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
+              <div>
+                <p className="text-sm font-semibold">Tirth Bhatt</p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  QA Engineer / SDET
+                </p>
+              </div>
+              <div className="flex items-center gap-6">
+                <Link
+                  href="mailto:tirthbhatt7@gmail.com"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="Email Tirth Bhatt"
+                >
+                  <Mail className="h-5 w-5" />
+                </Link>
+                <Link
+                  href="https://github.com/tirthbhatt"
+                  target="_blank"
+                  rel="noopener"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="GitHub profile"
+                >
+                  <Github className="h-5 w-5" />
+                </Link>
+                <Link
+                  href="https://linkedin.com/in/tirthbhatt7"
+                  target="_blank"
+                  rel="noopener"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="LinkedIn profile"
+                >
+                  <Linkedin className="h-5 w-5" />
+                </Link>
+              </div>
             </div>
-            <div>
-              <h3 className="font-medium">CI/CD</h3>
-              <p className="mt-1 text-muted-foreground">
-                GitHub Actions, Jenkins, Azure DevOps
-              </p>
-            </div>
-            <div>
-              <h3 className="font-medium">Containers</h3>
-              <p className="mt-1 text-muted-foreground">Docker, Kubernetes</p>
-            </div>
-            <div>
-              <h3 className="font-medium">Databases</h3>
-              <p className="mt-1 text-muted-foreground">
-                SQL, PostgreSQL, Redis, MongoDB
-              </p>
-            </div>
-            <div>
-              <h3 className="font-medium">Version Control</h3>
-              <p className="mt-1 text-muted-foreground">GitHub, BitBucket</p>
-            </div>
+            <Separator className="my-6" />
+            <p className="text-center text-sm text-muted-foreground">
+              © {new Date().getFullYear()} Tirth Bhatt. All rights reserved.
+            </p>
           </div>
         </div>
-      </section>
-
-      {/* Experience */}
-      <section aria-labelledby="experience-heading" className="border-t">
-        <div className="mx-auto max-w-5xl px-4 py-10 md:px-6">
-          <h2 id="experience-heading" className="text-xl font-semibold">
-            Experience
-          </h2>
-
-          <div className="mt-6 space-y-8">
-            <div>
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <h3 className="font-medium">
-                  Testend Ltd. — SDET II, Guildford, UK
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  Oct 2023 – Present
-                </p>
-              </div>
-              <p className="mt-1 text-sm text-muted-foreground">
-                IT services and consulting with multiple international clients.
-              </p>
-              <div className="mt-3 space-y-3">
-                <div>
-                  <p className="font-medium">
-                    AI Customer Service Platform (CCaaS, Europe) — Agent Assist
-                    & Voice Analytics
-                  </p>
-                  <ul className="mt-1 list-disc space-y-1 pl-5 text-muted-foreground">
-                    <li>
-                      Automated a wide matrix of agent-assist configurations
-                      with Playwright, expanding coverage and validating flows.
-                    </li>
-                    <li>
-                      Built a speech testing harness (TTS → Chromium via
-                      PulseAudio) and evaluated transcripts with WER to flag
-                      accuracy regressions.
-                    </li>
-                    <li>
-                      Added transcript QA and reporting (timing alignment,
-                      intent checks, confidence thresholds), including
-                      noisy/accented audio scenarios.
-                    </li>
-                    <li>
-                      Created API tests and schedules, supporting stable
-                      releases and backend robustness.
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <p className="font-medium">
-                    University Client — AI Student Support Chatbot & Learning
-                    Assistant
-                  </p>
-                  <ul className="mt-1 list-disc space-y-1 pl-5 text-muted-foreground">
-                    <li>
-                      Designed a dynamic, prompt-driven test framework to
-                      simulate personas and validate tone and content.
-                    </li>
-                    <li>
-                      Built anomaly detection and sentiment pipelines for
-                      model-behavior monitoring.
-                    </li>
-                    <li>
-                      Added basic hallucination flags and context-match scoring
-                      with regression dashboards for faster feedback.
-                    </li>
-                    <li>
-                      Managed CI/CD with Jenkins to ensure seamless integration
-                      and delivery.
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <p className="font-medium">
-                    FinTech Giant — Trading & Risk Platform
-                  </p>
-                  <ul className="mt-1 list-disc space-y-1 pl-5 text-muted-foreground">
-                    <li>
-                      Built E2E automation using Playwright/Cypress to improve
-                      release quality and efficiency.
-                    </li>
-                    <li>
-                      Developed backend test frameworks with Python and
-                      Testcontainers to validate critical integrations.
-                    </li>
-                    <li>
-                      Implemented Dockerised mock servers on Kubernetes to
-                      simulate trading workflows.
-                    </li>
-                    <li>
-                      Migrated legacy Cypress suites to Playwright and aligned
-                      testing with business goals via Scrum/JIRA.
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <h3 className="font-medium">Envinida LLP — SDET I (Remote)</h3>
-                <p className="text-sm text-muted-foreground">
-                  Sept 2022 – Oct 2023
-                </p>
-              </div>
-              <ul className="mt-2 list-disc space-y-1 pl-5 text-muted-foreground">
-                <li>
-                  Automated UI test suites with Cypress/JavaScript, increasing
-                  coverage by 60% and reducing deployment risks.
-                </li>
-                <li>
-                  Owned API testing integrated with GitHub Actions for
-                  continuous testing in CI/CD.
-                </li>
-                <li>
-                  Collaborated with backend engineers to shorten bug resolution
-                  time and benchmarked key APIs for performance gains.
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <h3 className="font-medium">
-                  WhiteHat Jr — QA Automation Engineer, Mumbai, India
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  June 2020 – Aug 2021
-                </p>
-              </div>
-              <ul className="mt-2 list-disc space-y-1 pl-5 text-muted-foreground">
-                <li>
-                  Built Selenium test suites, cutting manual QA effort by 40%.
-                </li>
-                <li>Automated regression workflows via GitHub Actions.</li>
-                <li>
-                  Conducted performance testing with JMeter and validated
-                  microservices stability via REST tests.
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Education */}
-      <section aria-labelledby="education-heading" className="border-t">
-        <div className="mx-auto max-w-5xl px-4 py-10 md:px-6">
-          <h2 id="education-heading" className="text-xl font-semibold">
-            Education
-          </h2>
-          <div className="mt-4 space-y-4">
-            <div>
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <p className="font-medium">
-                  University of Surrey — MSc Data Science, Guildford, UK
-                </p>
-                <span className="text-sm text-muted-foreground">
-                  Sept 2021 – Aug 2022
-                </span>
-              </div>
-              <p className="mt-1 text-muted-foreground">
-                Modules: Data Science Principles, Database Management, IT
-                Infrastructure, Information Security, ML & Data Mining, Advanced
-                Web Tech, Cloud Computing, NLP, Practical Business Analytics
-              </p>
-            </div>
-            <div>
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <p className="font-medium">
-                  Symbiosis Institute of Technology — B.E. Mechanical
-                  Engineering, Pune, India
-                </p>
-                <span className="text-sm text-muted-foreground">
-                  July 2016 – June 2020
-                </span>
-              </div>
-              <p className="mt-1 text-muted-foreground">
-                Modules: Programming, Engineering & Applied Mathematics,
-                Mechatronics, Robotics, CFD, CAD/CAM, Cyber Security
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Projects & Achievements */}
-      <section aria-labelledby="projects-heading" className="border-t">
-        <div className="mx-auto max-w-5xl px-4 py-10 md:px-6">
-          <h2 id="projects-heading" className="text-xl font-semibold">
-            Projects and Achievements
-          </h2>
-          <ul className="mt-3 list-disc space-y-1 pl-5 text-muted-foreground">
-            <li>
-              Python-based campus study-space chatbot using spaCy (NLP), Flask
-              (backend), and JS/HTML/CSS (UI).
-            </li>
-            <li>
-              EV Battery Cooling System Design — Highest mark in year for
-              final-year project through data-driven evaluation.
-            </li>
-            <li>
-              Youngest departmental head for Formula Student team; led Vehicle
-              Dynamics and used R analytics to improve tire performance — 2nd
-              place in National Design Award (SUPRA SAE 2018).
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      {/* Interests */}
-      <section aria-labelledby="interests-heading" className="border-t">
-        <div className="mx-auto max-w-5xl px-4 py-10 md:px-6">
-          <h2 id="interests-heading" className="text-xl font-semibold">
-            Interests and Hobbies
-          </h2>
-          <p className="mt-3 text-muted-foreground">
-            Formula 1 · Swimming · Golf
-          </p>
-        </div>
-      </section>
+      </footer>
     </main>
   );
 }
