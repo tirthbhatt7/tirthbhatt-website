@@ -16,7 +16,6 @@ import {
   Gauge,
   Bolt,
   Mail,
-  Github,
   Linkedin,
   ArrowRight,
   CheckCircle2,
@@ -24,6 +23,7 @@ import {
   TrendingUp,
   Clock,
 } from "lucide-react";
+import { SiGithub } from "@icons-pack/react-simple-icons";
 
 // Note: Using client components for animations, but content is static-friendly
 
@@ -618,13 +618,13 @@ export default function Page() {
                   <Mail className="h-5 w-5" />
                 </Link>
                 <Link
-                  href="https://github.com/tirthbhatt"
+                  href="https://github.com/tirthbhatt7"
                   target="_blank"
                   rel="noopener"
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                   aria-label="GitHub profile"
                 >
-                  <Github className="h-5 w-5" />
+                  <SiGithub className="h-5 w-5" />
                 </Link>
                 <Link
                   href="https://linkedin.com/in/tirthbhatt7"
