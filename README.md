@@ -1,71 +1,98 @@
-<a href="https://chat.vercel.ai/">
-  <img alt="Next.js 14 and App Router-ready AI chatbot." src="app/(chat)/opengraph-image.png">
-  <h1 align="center">Chat SDK</h1>
-</a>
+# Tirth Bhatt - Personal Website
 
-<p align="center">
-    Chat SDK is a free, open-source template built with Next.js and the AI SDK that helps you quickly build powerful chatbot applications.
-</p>
-
-<p align="center">
-  <a href="https://chat-sdk.dev"><strong>Read Docs</strong></a> ·
-  <a href="#features"><strong>Features</strong></a> ·
-  <a href="#model-providers"><strong>Model Providers</strong></a> ·
-  <a href="#deploy-your-own"><strong>Deploy Your Own</strong></a> ·
-  <a href="#running-locally"><strong>Running locally</strong></a>
-</p>
-<br/>
+A modern personal website and portfolio built with Next.js, featuring an AI chat assistant, case studies showcase, and interactive artifacts.
 
 ## Features
 
-- [Next.js](https://nextjs.org) App Router
+- **Next.js App Router**
   - Advanced routing for seamless navigation and performance
-  - React Server Components (RSCs) and Server Actions for server-side rendering and increased performance
-- [AI SDK](https://ai-sdk.dev/docs/introduction)
-  - Unified API for generating text, structured objects, and tool calls with LLMs
-  - Hooks for building dynamic chat and generative user interfaces
-  - Supports xAI (default), OpenAI, Fireworks, and other model providers
-- [shadcn/ui](https://ui.shadcn.com)
+  - React Server Components (RSCs) and Server Actions for server-side rendering
+- **AI Chat Assistant**
+  - Interactive chat interface powered by AI SDK
+  - Supports multiple AI model providers
+  - Chat history and persistence
+- **Case Studies Portfolio**
+  - Showcase of work and projects
+  - Detailed case study pages with metrics and outcomes
+- **Artifacts**
+  - Interactive code editors
+  - Document previews
+  - Image editors
+  - Spreadsheet editors
+- **Authentication**
+  - Secure user authentication with Auth.js
+- **UI Components**
+  - Built with [shadcn/ui](https://ui.shadcn.com)
   - Styling with [Tailwind CSS](https://tailwindcss.com)
-  - Component primitives from [Radix UI](https://radix-ui.com) for accessibility and flexibility
-- Data Persistence
-  - [Neon Serverless Postgres](https://vercel.com/marketplace/neon) for saving chat history and user data
-  - [Vercel Blob](https://vercel.com/storage/blob) for efficient file storage
-- [Auth.js](https://authjs.dev)
-  - Simple and secure authentication
+  - Accessible components from [Radix UI](https://radix-ui.com)
 
-## Model Providers
+## Tech Stack
 
-This template uses the [Vercel AI Gateway](https://vercel.com/docs/ai-gateway) to access multiple AI models through a unified interface. The default configuration includes [xAI](https://x.ai) models (`grok-2-vision-1212`, `grok-3-mini`) routed through the gateway.
+- [Next.js](https://nextjs.org) - React framework
+- [AI SDK](https://ai-sdk.dev) - AI model integration
+- [Drizzle ORM](https://orm.drizzle.team) - Database ORM
+- [Auth.js](https://authjs.dev) - Authentication
+- [TypeScript](https://www.typescriptlang.org) - Type safety
+- [Tailwind CSS](https://tailwindcss.com) - Styling
 
-### AI Gateway Authentication
+## Getting Started
 
-**For Vercel deployments**: Authentication is handled automatically via OIDC tokens.
+### Prerequisites
 
-**For non-Vercel deployments**: You need to provide an AI Gateway API key by setting the `AI_GATEWAY_API_KEY` environment variable in your `.env.local` file.
+- Node.js 18+ 
+- pnpm (package manager)
+- PostgreSQL database
+- Environment variables configured (see `.env.example`)
 
-With the [AI SDK](https://ai-sdk.dev/docs/introduction), you can also switch to direct LLM providers like [OpenAI](https://openai.com), [Anthropic](https://anthropic.com), [Cohere](https://cohere.com/), and [many more](https://ai-sdk.dev/providers/ai-sdk-providers) with just a few lines of code.
+### Installation
 
-## Deploy Your Own
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd tirthbhatt-website
+```
 
-You can deploy your own version of the Next.js AI Chatbot to Vercel with one click:
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/templates/next.js/nextjs-ai-chatbot)
-
-## Running locally
-
-You will need to use the environment variables [defined in `.env.example`](.env.example) to run Next.js AI Chatbot. It's recommended you use [Vercel Environment Variables](https://vercel.com/docs/projects/environment-variables) for this, but a `.env` file is all that is necessary.
-
-> Note: You should not commit your `.env` file or it will expose secrets that will allow others to control access to your various AI and authentication provider accounts.
-
-1. Install Vercel CLI: `npm i -g vercel`
-2. Link local instance with Vercel and GitHub accounts (creates `.vercel` directory): `vercel link`
-3. Download your environment variables: `vercel env pull`
-
+2. Install dependencies:
 ```bash
 pnpm install
-pnpm db:migrate # Setup database or apply latest database changes
+```
+
+3. Set up environment variables:
+   - Copy `.env.example` to `.env.local`
+   - Fill in all required environment variables
+
+4. Set up the database:
+```bash
+pnpm db:migrate
+```
+
+5. Run the development server:
+```bash
 pnpm dev
 ```
 
-Your app template should now be running on [localhost:3000](http://localhost:3000).
+The application will be available at [http://localhost:3000](http://localhost:3000).
+
+## Available Scripts
+
+- `pnpm dev` - Start development server
+- `pnpm build` - Build for production
+- `pnpm start` - Start production server
+- `pnpm lint` - Run linter
+- `pnpm format` - Format code
+- `pnpm db:migrate` - Run database migrations
+- `pnpm db:studio` - Open Drizzle Studio
+- `pnpm test` - Run tests
+
+## Project Structure
+
+- `app/` - Next.js app router pages and routes
+- `components/` - React components
+- `lib/` - Utility functions and configurations
+- `data/` - Static data (case studies, etc.)
+- `hooks/` - Custom React hooks
+- `artifacts/` - Artifact-related code (editors, previews)
+
+## License
+
+See [LICENSE](LICENSE) file for details.
