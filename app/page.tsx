@@ -25,11 +25,6 @@ import {
   Clock,
 } from "lucide-react";
 import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
-import {
   Carousel,
   CarouselContent,
   CarouselItem,
@@ -84,43 +79,12 @@ function StatCard({
   icon: Icon,
   value,
   label,
-  company,
-  project,
-  description,
 }: {
   icon: React.ElementType;
   value: string;
   label: string;
-  company?: string;
-  project?: string;
-  description?: string;
 }) {
-  const hasDetails = company && project && description;
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const x = e.clientX;
-    const y = e.clientY;
-
-    // Position tooltip to the right of cursor, but adjust if near screen edges
-    let tooltipX = x + 20;
-    let tooltipY = y - 20;
-
-    // Check if tooltip would go off screen (assuming 320px width for w-80)
-    if (typeof window !== "undefined" && tooltipX + 320 > window.innerWidth) {
-      tooltipX = x - 340; // Position to the left instead
-    }
-
-    // Check if tooltip would go above screen
-    if (tooltipY < 100) {
-      tooltipY = y + 20; // Position below cursor
-    }
-
-    setMousePosition({ x: tooltipX, y: tooltipY });
-  };
-
-  const cardContent = (
+  return (
     <Card className="group hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg">
       <CardContent className="p-6">
         <div className="flex items-start gap-4">
@@ -134,44 +98,6 @@ function StatCard({
         </div>
       </CardContent>
     </Card>
-  );
-
-  if (!hasDetails) {
-    return cardContent;
-  }
-
-  return (
-    <HoverCard openDelay={200} closeDelay={100} open={isHovered}>
-      <HoverCardTrigger asChild>
-        <button
-          type="button"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          onMouseMove={handleMouseMove}
-          className="w-full text-left cursor-pointer focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 rounded-lg relative"
-          aria-label={`${label}: ${value}. Click to learn more about ${company}`}
-        >
-          {cardContent}
-        </button>
-      </HoverCardTrigger>
-      <HoverCardContent
-        className="w-80 pointer-events-none z-50"
-        style={{
-          position: "fixed",
-          left: `${mousePosition.x}px`,
-          top: `${mousePosition.y}px`,
-          transform: "translate(0, -100%)",
-        }}
-      >
-        <div className="space-y-2">
-          <div className="font-semibold text-sm text-foreground">{company}</div>
-          <div className="text-sm font-medium text-muted-foreground">
-            {project}
-          </div>
-          <p className="text-sm text-muted-foreground">{description}</p>
-        </div>
-      </HoverCardContent>
-    </HoverCard>
   );
 }
 
@@ -388,40 +314,28 @@ export default function Page() {
               <StatCard
                 icon={TrendingDown}
                 value="-35%"
-                label="Reduction in production incidents"
-                company="Mastercard"
-                project="Anti money laundering case management platform"
-                description="Designed Playwright based UI regression suite that cut UI related production incidents by about 35 percent over two quarters."
+                label="reduction in prod incidents"
               />
             </motion.div>
             <motion.div variants={fadeUp}>
               <StatCard
                 icon={Clock}
-                value="Minutes"
-                label="Faster test feedback cycle"
-                company="OVO Energy"
-                project="Internal energy trading and nomination platform"
-                description="Built mocked trading services and Kubernetes based test environments so teams could run high volume scenarios in minutes instead of waiting for daily trade limits."
+                value="Faster"
+                label="releases and test feedback cycle"
               />
             </motion.div>
             <motion.div variants={fadeUp}>
               <StatCard
                 icon={TrendingUp}
-                value="100%"
-                label="Coverage of AI use cases"
-                company="Diabolocom"
-                project="Agent assist and quality monitoring AI platform"
-                description="Created AI focused test harnesses for speech, summarization and quality scoring flows, moving AI evaluation coverage from a handful of scenarios to full daily call samples."
+                value="80%"
+                label="coverage of AI use cases"
               />
             </motion.div>
             <motion.div variants={fadeUp}>
               <StatCard
                 icon={CheckCircle2}
                 value="High"
-                label="Campaign launch confidence"
-                company="WPP"
-                project="Advertising campaign management suite"
-                description="Established end to end UI and API testing for campaign workflows that reduced high severity launch bugs across key markets."
+                label="campaign launch confidence"
               />
             </motion.div>
           </motion.div>
