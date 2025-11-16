@@ -15,10 +15,14 @@ type SuggestedActionsProps = {
 
 function PureSuggestedActions({ chatId, sendMessage }: SuggestedActionsProps) {
   const suggestedActions = [
-    "What are the advantages of using Next.js?",
-    "Write code to demonstrate Dijkstra's algorithm",
-    "Help me write an essay about Silicon Valley",
-    "What is the weather in San Francisco?",
+    "What kinds of teams and products has Tirth worked with recently?",
+    "How does Tirth usually structure test automation frameworks?",
+    "Can you summarise Tirth's experience with AI testing and LLMs?",
+    "What impact has Tirth had on production stability and incident rates?",
+    "How does Tirth collaborate with developers and product managers?",
+    "What industries has Tirth worked in and what were the main projects?",
+    "What would be a good way to use Tirth in our team during the first 90 days?",
+    "How comfortable is Tirth with CI, pipelines and test infrastructure?",
   ];
 
   return (
@@ -26,7 +30,7 @@ function PureSuggestedActions({ chatId, sendMessage }: SuggestedActionsProps) {
       className="grid w-full gap-2 sm:grid-cols-2"
       data-testid="suggested-actions"
     >
-      {suggestedActions.map((suggestedAction, index) => (
+      {suggestedActions.slice(0, 8).map((suggestedAction, index) => (
         <motion.div
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
