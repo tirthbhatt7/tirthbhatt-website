@@ -10,11 +10,12 @@ import { SessionProvider } from "next-auth/react";
 export const metadata: Metadata = {
   metadataBase: new URL("https://tirthbhatt.com"),
   title: {
-    default: "Tirth Bhatt — QA Engineer / SDET",
-    template: "%s — Tirth Bhatt",
+    default:
+      "Tirth Bhatt | QA Engineer and SDET | AI powered Testing and Automation",
+    template: "%s | Tirth Bhatt",
   },
   description:
-    "QA Engineer / SDET focused on reliable E2E, fast CI, and pragmatic AI testing. I help teams eliminate flaky tests, speed up CI, and ship with confidence.",
+    "Tirth Bhatt is a QA Engineer and SDET who builds reliable automation, AI testing harnesses, and test frameworks for FinTech, Energy, Marketing and AI products.",
   keywords: [
     "QA",
     "SDET",
@@ -25,20 +26,24 @@ export const metadata: Metadata = {
     "AI Testing",
     "Test Automation Engineer",
     "Quality Assurance",
+    "FinTech Testing",
+    "AI Testing Frameworks",
   ],
   openGraph: {
     type: "website",
     url: "https://tirthbhatt.com",
-    title: "Tirth Bhatt — QA Engineer / SDET",
+    title:
+      "Tirth Bhatt | QA Engineer and SDET | AI powered Testing and Automation",
     description:
-      "I help teams eliminate flaky tests, speed up CI, and ship with confidence—using robust automation and pragmatic AI tooling.",
+      "Tirth Bhatt is a QA Engineer and SDET who builds reliable automation, AI testing harnesses, and test frameworks for FinTech, Energy, Marketing and AI products.",
     siteName: "Tirth Bhatt",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Tirth Bhatt — QA Engineer / SDET",
+    title:
+      "Tirth Bhatt | QA Engineer and SDET | AI powered Testing and Automation",
     description:
-      "Reliable E2E, faster CI, and pragmatic AI testing for modern teams.",
+      "QA Engineer and SDET building reliable automation, AI testing harnesses, and test frameworks for FinTech, Energy, Marketing and AI products.",
   },
   alternates: {
     canonical: "https://tirthbhatt.com",

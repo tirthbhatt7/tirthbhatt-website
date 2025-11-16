@@ -13,16 +13,25 @@ export const Greeting = () => {
         initial={{ opacity: 0, y: 10 }}
         transition={{ delay: 0.5 }}
       >
-        Hello there!
+        I'm Tirth's Portfolio Assistant
       </motion.div>
       <motion.div
         animate={{ opacity: 1, y: 0 }}
-        className="text-xl text-zinc-500 md:text-2xl"
+        className="text-xl text-zinc-500 md:text-2xl mt-2"
         exit={{ opacity: 0, y: 10 }}
         initial={{ opacity: 0, y: 10 }}
         transition={{ delay: 0.6 }}
       >
-        How can I help you today?
+        Ask me anything about Tirth's work, skills, experience, and case studies.
+      </motion.div>
+      <motion.div
+        animate={{ opacity: 1, y: 0 }}
+        className="text-sm text-zinc-400 mt-4"
+        exit={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: 10 }}
+        transition={{ delay: 0.7 }}
+      >
+        For personal questions or deeper conversations, please book a call with Tirth directly.
       </motion.div>
     </div>
   );
